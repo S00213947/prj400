@@ -1,0 +1,7 @@
+{
+  "name": "PRJ400",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
