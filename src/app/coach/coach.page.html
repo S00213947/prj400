@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Set Match Team</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Set Match Team</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Available Players</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let player of players">
+          <ion-label>
+            <h2>{{ player.name }}</h2>
+            <p>Risk Level: 
+              <span [ngClass]="{'low-risk': player.riskLevel === 'Low', 'moderate-risk': player.riskLevel === 'Moderate', 'high-risk': player.riskLevel === 'High'}">
+                {{ player.riskLevel }}
+              </span>
+            </p>
+          </ion-label>
+          <ion-checkbox slot="start" (ionChange)="togglePlayerSelection(player)" [checked]="isSelected(player)"></ion-checkbox>
+          <ion-icon
+            *ngIf="player.riskLevel === 'High'"
+            name="warning-outline"
+            color="danger"
+            slot="end"
+            aria-label="High Risk"
+          ></ion-icon>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" (click)="confirmTeam()">Confirm Team</ion-button>
+</ion-content>

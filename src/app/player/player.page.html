@@ -1,0 +1,61 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>{{ player?.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ player?.name }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div *ngIf="player">
+    <h2>{{ player.name }}</h2>
+    <p>Risk Level: {{ player.riskLevel }}</p>
+    <p>Details: {{ player.details }}</p>
+
+    <!-- Training Data Form -->
+    <form (ngSubmit)="calculateRisk()">
+      <ion-item>
+        <ion-label position="floating">Training Hours</ion-label>
+        <ion-input
+          type="number"
+          (ionInput)="updateTrainingData('hours', $event)"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Recovery Time (hours)</ion-label>
+        <ion-input
+          type="number"
+          (ionInput)="updateTrainingData('recoveryTime', $event)"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit">Calculate Risk</ion-button>
+    </form>
+
+    
+    <div *ngIf="calculatedRisk">
+      <h3>Calculated Risk Score: {{ calculatedRisk }}</h3>
+    </div>
+
+    <!-- Risk Score History Chart -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Risk Score History</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #riskChart></canvas> 
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="!player">
+    <p>Player not found.</p>
+  </div>
+</ion-content>
