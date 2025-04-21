@@ -1,12 +1,54 @@
+ion-item.selected {
+  background-color: rgba(0, 123, 255, 0.1);
+  border-left: 4px solid #007bff;
+}
+
+.risk-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
 .low-risk {
-    color: green;
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.moderate-risk {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.high-risk {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+ion-item::part(native) {
+  align-items: center;
+}
+
+.remove-btn-container {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  ion-button {
+    visibility: visible !important;
+    opacity: 1 !important;
   }
-  
-  .moderate-risk {
-    color: orange;
-  }
-  
-  .high-risk {
-    color: red;
-    font-weight: bold;
-  }
+}
+
+.low-risk {
+  color: green;
+}
+
+.moderate-risk {
+  color: orange;
+}
+
+.high-risk {
+  color: red;
+}

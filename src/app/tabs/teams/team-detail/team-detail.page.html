@@ -1,0 +1,29 @@
+
+ <ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/teams"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Team Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Team: {{ team?.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-list *ngIf="team?.players?.length">
+    <ion-item *ngFor="let player of team.players">
+      <ion-label>
+        <h2>{{ player.displayName || player.name }}</h2>
+        <p>{{ player.email }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  
+
+  <p *ngIf="!team?.players?.length">No players in this team yet.</p>
+</ion-content>

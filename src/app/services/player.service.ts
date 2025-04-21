@@ -6,14 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root' // ✅ This makes it available throughout the app
 })
 export class PlayerService {
-  private apiUrl = 'http://localhost:5000'; // Replace with your actual backend URL
+  private apiUrl = 'http://localhost:3000'; // Replace with your actual backend URL
 
   constructor(private http: HttpClient) {}
 
   // Fetch a player by ID
-  getPlayer(id: number): Observable<any> {
+  getPlayer(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/players/${id}`);
   }
+  
 
   // Fetch all players
   getAllPlayers(): Observable<any[]> {
@@ -29,4 +30,14 @@ export class PlayerService {
   updatePlayerTraining(id: number, trainingData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/players/${id}/training`, trainingData);
   }
+
+  updatePlayerRiskScores(playerId: string, scores: number[]) {
+    return this.http.put(`http://localhost:3000/players/${playerId}/risk-scores`, { scores });
+  }
+  
+
+  updatePlayer(id: string, updates: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/players/${id}`, updates);
+  }
+  
 }

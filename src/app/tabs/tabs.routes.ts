@@ -1,47 +1,51 @@
 import { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { roleGuard } from '../role.guard';
+
 
 export const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
         path: 'tab1',
+        loadComponent: () => import('../tab1/tab1.page').then(m => m.Tab1Page),
+      },
+      {
+        path: 'Coach',
         loadComponent: () =>
-          import('../tab1/tab1.page').then((m) => m.Tab1Page),
+          import('../coach/coach.page').then((m) => m.CoachPage),
+        canActivate: [() => roleGuard('coach')],
       },
       {
-        path: 'tab2',
-        loadComponent: () =>
-          import('../tab2/tab2.page').then((m) => m.Tab2Page),
-      },
-      {
-        path: 'tab3',
-        loadComponent: () =>
-          import('../tab3/tab3.page').then((m) => m.Tab3Page),
-      },
-      {
-       path: 'Coach',
-       loadComponent: () =>
-        import('../coach/coach.page').then((m) => m.CoachPage),
-      },
-      {
-        path: 'PlayerProfile/:id',
+        path: 'player',
         loadComponent: () =>
           import('../player/player.page').then((m) => m.PlayerPage),
+        canActivate: [() => roleGuard('player')],
       },
-      
+      {
+        path: 'teams',
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./teams/teams.page').then(m => m.TeamsPage),
+          },
+          {
+            path: ':id',
+            loadComponent: () => import('./teams/team-detail/team-detail.page').then(m => m.TeamDetailPage),
+          }
+        ]
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('../profile/profile.page').then(m => m.ProfilePage),
+      },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
-        pathMatch: 'full',
-      },
-    ],
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/tab1',
-    pathMatch: 'full',
-  },
+        redirectTo: 'tab1',
+        pathMatch: 'full'
+      }
+    ]
+  }
 ];

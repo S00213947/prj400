@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+
+  <!-- 🌗 Theme Toggle -->
+  <ion-item lines="none">
+    <ion-label>Dark Mode</ion-label>
+    <ion-toggle slot="end" [checked]="isDarkMode" (ionChange)="toggleDarkMode($event)"></ion-toggle>
+  </ion-item>
+
+ 
+  
+
+  <!-- Player Card -->
+  <div *ngIf="userRole === 'player'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Player Profile</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Welcome! You are logged in as a <strong>Player</strong>.</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Coach Card -->
+  <div *ngIf="userRole === 'coach'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Coach Profile</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Welcome! You are logged in as a <strong>Coach</strong>.</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Update Display Name</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Display Name</ion-label>
+        <ion-input 
+        [(ngModel)]="displayName" 
+        placeholder="Enter new display name"
+        type="text"
+        ngDefaultControl>
+      </ion-input>
+      
+
+      </ion-item>
+      <ion-button expand="block" (click)="updateDisplayName()">Save</ion-button>
+      </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Your Display Name</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p *ngIf="displayName; else noName">
+        {{ displayName }}
+      </p>
+      <ng-template #noName>
+        <p class="ion-text-muted">No display name set yet.</p>
+      </ng-template>
+    </ion-card-content>
+  </ion-card>
+  
+
+  <ion-button expand="block" color="danger" (click)="logout()">
+    <ion-icon name="log-out-outline" slot="start"></ion-icon>
+    Logout
+  </ion-button>
+
+
+
+  <!-- Fallback -->
+  <div *ngIf="!userRole">
+    <p>Role not assigned. Please return to role selection.</p>
+  </div>
+
+</ion-content>

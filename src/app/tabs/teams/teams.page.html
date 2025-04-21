@@ -1,0 +1,64 @@
+<!-- 👨‍🏫 Coach View -->
+<ng-container *ngIf="userRole === 'coach'">
+  <ion-button (click)="createTeam()">Create New Team</ion-button>
+
+  <!-- Modal for Creating Team -->
+  <div *ngIf="showModal" class="modal-backdrop">
+    <ion-card class="modal-card">
+      <ion-card-header>
+        <ion-card-title>Create Team</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Team Name</ion-label>
+          <ion-input name="teamName" [(ngModel)]="teamName" placeholder="Enter team name">
+            <input [(ngModel)]="teamName" placeholder="Enter team name" />
+          </ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="saveTeam()">Save Team</ion-button>
+        <ion-button expand="block" color="medium" (click)="cancel()">Cancel</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Coach’s Team List -->
+  <ion-item *ngFor="let team of teams">
+    <ion-label>
+      <h2>{{ team.name }}</h2>
+      <p>Players: {{ team.players?.length || 0 }}</p>
+    </ion-label>
+    <ion-button slot="end" fill="clear" (click)="goToTeam(team._id)">
+      View
+    </ion-button>
+  </ion-item>
+
+  <ion-text *ngIf="teams.length === 0">
+    No teams yet.
+  </ion-text>
+</ng-container>
+
+<!-- 👤 Player View -->
+<ng-container *ngIf="userRole === 'player'">
+  <ion-header>
+    <ion-title>Your Teams</ion-title>
+  </ion-header>
+
+  <ion-item *ngFor="let team of teams">
+    <ion-label>
+      <h2>{{ team.name }}</h2>
+
+      <!-- ✅ Check if team.coachId is an object before accessing -->
+      <p *ngIf="team.coachId && team.coachId.email">
+        Coach: {{ team.coachId.email }}
+      </p>
+
+    </ion-label>
+    <ion-button slot="end" fill="clear" (click)="goToTeam(team._id)">
+      View
+    </ion-button>
+  </ion-item>
+
+  <ion-text *ngIf="teams.length === 0">
+    You haven't been added to any teams yet.
+  </ion-text>
+</ng-container>

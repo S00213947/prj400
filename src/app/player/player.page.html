@@ -1,61 +1,112 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>{{ player?.name }}</ion-title>
+  <ion-toolbar color="dark">
+    <ion-title class="ion-text-center">{{ player?.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ player?.name }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
 
-  <div *ngIf="player">
-    <h2>{{ player.name }}</h2>
-    <p>Risk Level: {{ player.riskLevel }}</p>
-    <p>Details: {{ player.details }}</p>
+  <!-- 👤 Player Info -->
+  <ion-card *ngIf="player" class="info-card">
+    <ion-card-header>
+      <ion-card-title class="title-highlight">{{ player.email }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- <p><strong>Risk Level:</strong>
+        <ion-badge
+          [color]="player.riskLevel === 'High' ? 'danger' : player.riskLevel === 'Moderate' ? 'warning' : 'success'">
+          {{ player.riskLevel || 'Unknown' }}
+        </ion-badge>
+      </p> -->
+      <p *ngIf="player.details"><strong>Details:</strong> {{ player.details }}</p>
+    </ion-card-content>
+  </ion-card>
 
-    <!-- Training Data Form -->
-    <form (ngSubmit)="calculateRisk()">
-      <ion-item>
-        <ion-label position="floating">Training Hours</ion-label>
-        <ion-input
-          type="number"
-          (ionInput)="updateTrainingData('hours', $event)"
-          required
-        ></ion-input>
-      </ion-item>
+  <!-- 📝 Log Training Session -->
+  <ion-card class="log-card">
+    <ion-card-header>
+      <ion-card-title>Log Training Session</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Duration Input -->
+<ion-item>
+  <ion-label position="floating">Training Duration (minutes)</ion-label>
+  <ion-input 
+    type="number" 
+    [(ngModel)]="session.duration" 
+    required>
+  </ion-input>
+  <ion-icon
+    slot="end"
+    name="information-circle-outline"
+    (click)="showInfo('duration')"
+    style="cursor: pointer;">
+  </ion-icon>
+</ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Recovery Time (hours)</ion-label>
-        <ion-input
-          type="number"
-          (ionInput)="updateTrainingData('recoveryTime', $event)"
-          required
-        ></ion-input>
-      </ion-item>
+<!-- RPE Input -->
+<ion-item>
+  <ion-label position="floating">RPE (1–10)</ion-label>
+  <ion-input 
+    type="number" 
+    [(ngModel)]="session.rpe" 
+    min="1" max="10"
+    (ionBlur)="clampRPE()"
+    required>
+  </ion-input>
+  <ion-icon
+    slot="end"
+    name="information-circle-outline"
+    (click)="showInfo('rpe')"
+    style="cursor: pointer;">
+  </ion-icon>
+</ion-item>
 
-      <ion-button expand="block" type="submit">Calculate Risk</ion-button>
-    </form>
+<!-- HRV Input -->
+<ion-item>
+  <ion-label position="floating">HRV (ms) - Optional</ion-label>
+  <ion-input 
+    type="number" 
+    [(ngModel)]="session.hrv">
+  </ion-input>
+  <ion-icon
+    slot="end"
+    name="information-circle-outline"
+    (click)="showInfo('hrv')"
+    style="cursor: pointer;">
+  </ion-icon>
+</ion-item>
 
-    
-    <div *ngIf="calculatedRisk">
-      <h3>Calculated Risk Score: {{ calculatedRisk }}</h3>
-    </div>
+     
 
-    <!-- Risk Score History Chart -->
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Risk Score History</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <canvas #riskChart></canvas> 
-      </ion-card-content>
-    </ion-card>
-  </div>
+      <ion-button expand="block" color="primary" (click)="submitSession()">
+        Log Session & Calculate Risk
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 
+  <!-- 📊 Risk Summary -->
+  <ion-card *ngIf="calculatedRisk" [color]="calculatedRisk === 'High' ? 'danger' : calculatedRisk === 'Moderate' ? 'warning' : 'success'">
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">Calculated Risk Score: {{ calculatedRisk }}</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <!-- 📈 Risk Chart -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Risk Score History</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="min-height: 300px;">
+      <canvas #riskChart></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ❗️ Fallback -->
   <div *ngIf="!player">
-    <p>Player not found.</p>
+    <ion-text color="danger">
+      <p>Player not found.</p>
+    </ion-text>
   </div>
+
 </ion-content>

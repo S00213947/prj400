@@ -4,40 +4,97 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Set Match Team</ion-title>
     </ion-toolbar>
   </ion-header>
 
+  <!-- 🧑‍🤝‍🧑 Available Players List -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Available Players</ion-card-title>
     </ion-card-header>
+  
     <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let player of players">
-          <ion-label>
-            <h2>{{ player.name }}</h2>
-            <p>Risk Level: 
-              <span [ngClass]="{'low-risk': player.riskLevel === 'Low', 'moderate-risk': player.riskLevel === 'Moderate', 'high-risk': player.riskLevel === 'High'}">
-                {{ player.riskLevel }}
+        <ion-item *ngFor="let player of players" [class.selected]="isSelected(player)">
+          <ion-checkbox
+            slot="start"
+            (ionChange)="togglePlayerSelection(player)"
+            [checked]="isSelected(player)"
+          ></ion-checkbox>
+  
+          <ion-item *ngFor="let player of players">
+            <ion-label>
+              <h2>{{ player.displayName || player.email }}</h2>
+              <p>
+                Risk Score:
+                <span
+                [ngClass]="{
+                  'low-risk': getRiskLevel(player) === 'Low',
+                  'moderate-risk': getRiskLevel(player) === 'Moderate',
+                  'high-risk': getRiskLevel(player) === 'High'
+                }"
+              >
+              {{ getRiskLevel(player) }}
               </span>
-            </p>
-          </ion-label>
-          <ion-checkbox slot="start" (ionChange)="togglePlayerSelection(player)" [checked]="isSelected(player)"></ion-checkbox>
-          <ion-icon
-            *ngIf="player.riskLevel === 'High'"
-            name="warning-outline"
-            color="danger"
+                <ng-template #noRisk>Unknown</ng-template>
+              </p>
+            </ion-label>
+          </ion-item>
+  
+          <ion-button
             slot="end"
-            aria-label="High Risk"
-          ></ion-icon>
+            color="danger"
+            fill="clear"
+            (click)="confirmRemovePlayer(player)"
+          >
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
         </ion-item>
       </ion-list>
     </ion-card-content>
+  
+    <!-- 🔄 Move "Add to Team" button down here -->
+    <ion-item>
+      <ion-label>Select a team</ion-label>
+      <ion-select
+        name="teamSelect"
+        [(ngModel)]="selectedTeamId"
+        placeholder="Select a team">
+        <ion-select-option *ngFor="let team of teams" [value]="team._id">
+          {{ team.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    
+    <ion-item lines="none">
+      <ion-button expand="block" color="primary" (click)="addToTeam()">Add to Team</ion-button>
+    </ion-item>
   </ion-card>
 
-  <ion-button expand="block" (click)="confirmTeam()">Confirm Team</ion-button>
+  <!-- ➕ Add Player by Email -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Add Player by Email</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Player Email</ion-label>
+        <ion-input 
+          [(ngModel)]="newPlayerEmail"
+          type="email"
+          placeholder="Enter email address"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" (click)="addPlayerByEmail()">Add Player</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+
+  
 </ion-content>
