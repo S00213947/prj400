@@ -28,7 +28,7 @@ export class TabsPage implements OnInit {
   goToPlayerPage(playerId: number) {
     this.router.navigate([`/tabs/PlayerProfile`, playerId]);
   }
-
+//ghgh
 /*   goToTeam(teamId: string) {
     this.router.navigate(['/tabs/teams', teamId]);
   } */
