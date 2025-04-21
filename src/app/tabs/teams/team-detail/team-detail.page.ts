@@ -5,6 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonButto
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Team } from 'src/app/models/team.model';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -36,7 +37,9 @@ console.log('[TeamDetailPage] Selected team:', this.team);
   } */
 
     const teamId = this.route.snapshot.paramMap.get('id');
-    this.http.get<Team>(`http://localhost:3000/api/teams/${teamId}`).subscribe({
+    //this.http.get<Team>(`http://localhost:3000/api/teams/${teamId}`).subscribe({
+      this.http.get<Team>(`${environment.apiUrl}/api/teams/${teamId}`).subscribe({
+
       next: (team) => {
         this.team = team;
         console.log('Loaded team:', team);

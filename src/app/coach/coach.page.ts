@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { addIcons } from 'ionicons';
 import { trashOutline } from 'ionicons/icons';
+import { environment } from 'src/environments/environment';
 
 addIcons({
   'trash-outline': trashOutline
@@ -53,7 +54,7 @@ export class CoachPage implements OnInit {
     console.log('[CoachPage] Loaded. Role from localStorage:', role);
 
     if (this.coachId) {
-      this.http.get<any[]>(`http://localhost:3000/coaches/${this.coachId}/pending-players`).subscribe({
+      this.http.get<any[]>(`${environment.apiUrl}/coaches/${this.coachId}/pending-players`).subscribe({
         next: (players) => {
           this.players = players;
         },
@@ -64,7 +65,8 @@ export class CoachPage implements OnInit {
     
     }
 
-    this.http.get<any[]>(`http://localhost:3000/api/teams/coach/${this.coachId}`).subscribe({
+   // this.http.get<any[]>(`http://localhost:3000/api/teams/coach/${this.coachId}`).subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/api/teams/coach/${this.coachId}`).subscribe({
       next: (teams) => {
         this.teams = teams;
         console.log('Loaded coach teams:', this.teams);
@@ -100,7 +102,9 @@ togglePlayerSelection(player: any) {
   
     const encoded = encodeURIComponent(this.newPlayerEmail.trim());
   
-    this.http.get(`http://localhost:3000/players/email/${encoded}`).subscribe({
+   // this.http.get(`http://localhost:3000/players/email/${encoded}`).subscribe({
+      this.http.get(`${environment.apiUrl}/players/email/${encoded}`).subscribe({
+
       next: (player: any) => {
         if (!this.players.some(p => p._id === player._id)) {
           this.players.push(player);
@@ -108,7 +112,9 @@ togglePlayerSelection(player: any) {
   
           // ✅ Also save this player to the coach's pendingPlayers in the DB
           if (this.coachId) {
-            this.http.put(`http://localhost:3000/coaches/${this.coachId}/add-player/${player._id}`, {})
+           // this.http.put(`http://localhost:3000/coaches/${this.coachId}/add-player/${player._id}`, {})
+            this.http.put(`${environment.apiUrl}/coaches/${this.coachId}/add-player/${player._id}`, {})
+
               .subscribe({
                 next: () => console.log('📌 Player saved to coach document'),
                 error: err => console.error('❌ Error saving player to coach:', err)
@@ -140,7 +146,8 @@ togglePlayerSelection(player: any) {
   
     // 🔁 Optional: persist the updated list to DB
     if (this.coachId) {
-      this.http.put(`http://localhost:3000/coaches/${this.coachId}/pending-players`, {
+      //this.http.put(`http://localhost:3000/coaches/${this.coachId}/pending-players`, {
+        this.http.put(`${environment.apiUrl}/coaches/${this.coachId}/pending-players`, {
         players: this.players.map(p => p.email)
       }).subscribe({
         next: () => console.log('✅ Player list updated'),
@@ -155,34 +162,7 @@ togglePlayerSelection(player: any) {
     return this.selectedTeam.has(key);
   }
 
-  /* addToTeam() {
-    const teamId = prompt("Enter the team ID to add selected players to:");
-    console.log('🟡 Team ID entered:', teamId);
   
-    if (!teamId) {
-      console.log('⛔ No team ID entered');
-      return;
-    }
-  
-    this.players.forEach(player => {
-      if (this.selectedTeam.has(player._id)) {
-        console.log('📤 Sending player to backend:', player.email, player._id);
-  
-        this.http.put(`http://localhost:3000/api/teams/${teamId}/add-player`, {
-          playerId: player._id
-        }).subscribe({
-          next: res => {
-            console.log(`✅ Added ${player.email} to team`, res);
-          },
-          error: err => {
-            console.error(`❌ Failed to add ${player.email}`, err);
-          }
-        });
-      } else {
-        console.log('⛔ Player not selected:', player.email);
-      }
-    });
-  } */
 
     addToTeam() {
       if (!this.selectedTeamId || this.selectedTeam.size === 0) {
@@ -195,7 +175,8 @@ togglePlayerSelection(player: any) {
       this.players.forEach(player => {
         if (this.selectedTeam.has(player._id)) {
           console.log('📤 Sending player to backend:', player.email, player._id);
-          this.http.put(`http://localhost:3000/api/teams/${this.selectedTeamId}/add-player`, {
+          //this.http.put(`http://localhost:3000/api/teams/${this.selectedTeamId}/add-player`, {
+            this.http.put(`${environment.apiUrl}/api/teams/${this.selectedTeamId}/add-player`, {
             playerId: player._id
           }).subscribe({
             next: res => {

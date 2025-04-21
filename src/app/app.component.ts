@@ -5,6 +5,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -40,7 +41,10 @@ export class AppComponent implements OnInit {
           const encodedEmail = encodeURIComponent(user.email);
           const role = localStorage.getItem('userRole') || 'player';
         
-          const baseUrl = role === 'coach' ? 'http://localhost:3000/coaches' : 'http://localhost:3000/players';
+         // const baseUrl = role === 'coach' ? 'http://localhost:3000/coaches' : 'http://localhost:3000/players';
+          const baseUrl = role === 'coach'
+  ? `${environment.apiUrl}/coaches`
+  : `${environment.apiUrl}/players`;
         
           this.http.get(`${baseUrl}/email/${encodedEmail}`).subscribe({
             next: (existingUser: any) => {

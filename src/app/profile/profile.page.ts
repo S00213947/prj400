@@ -16,6 +16,7 @@ import {
   import { AuthService } from '@auth0/auth0-angular';
   import { PlayerService } from './../services/player.service'; 
   import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -65,9 +66,12 @@ export class ProfilePage implements OnInit {
       return;
     }
   
-    const endpoint = this.userRole === 'coach'
+   /*  const endpoint = this.userRole === 'coach'
       ? `http://localhost:3000/coaches/${this.userId}`
-      : `http://localhost:3000/players/${this.userId}`;
+      : `http://localhost:3000/players/${this.userId}`; */
+      const endpoint = this.userRole === 'coach'
+      ? `${environment.apiUrl}/coaches/${this.userId}`
+      : `${environment.apiUrl}/players/${this.userId}`;
   
     this.http.get(endpoint).subscribe({
       next: (user: any) => {
@@ -90,9 +94,12 @@ export class ProfilePage implements OnInit {
       return;
     }
   
-    const endpoint = this.userRole === 'coach'
+   /*  const endpoint = this.userRole === 'coach'
       ? `http://localhost:3000/coaches/${this.userId}`
-      : `http://localhost:3000/players/${this.userId}`;
+      : `http://localhost:3000/players/${this.userId}`; */
+      const endpoint = this.userRole === 'coach'
+      ? `${environment.apiUrl}/coaches/${this.userId}`
+      : `${environment.apiUrl}/players/${this.userId}`;
   
     this.http.put(endpoint, {
       displayName: this.displayName.trim()

@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root' // ✅ This makes it available throughout the app
 })
 export class PlayerService {
-  private apiUrl = 'http://localhost:3000'; // Replace with your actual backend URL
-
+  //private apiUrl = 'http://localhost:3000'; // Replace with your actual backend URL
+  private apiUrl = environment.apiUrl;
+  
   constructor(private http: HttpClient) {}
 
   // Fetch a player by ID
@@ -32,7 +34,9 @@ export class PlayerService {
   }
 
   updatePlayerRiskScores(playerId: string, scores: number[]) {
-    return this.http.put(`http://localhost:3000/players/${playerId}/risk-scores`, { scores });
+   // return this.http.put(`http://localhost:3000/players/${playerId}/risk-scores`, { scores });
+    return this.http.put(`${environment.apiUrl}/players/${playerId}/risk-scores`, { scores });
+
   }
   
 

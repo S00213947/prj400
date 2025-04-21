@@ -6,6 +6,7 @@ import { IonButton, IonLabel, IonContent, IonButtons, IonTitle, IonHeader, IonMo
 import { Team } from 'src/app/models/team.model';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http'; 
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-teams',
@@ -27,28 +28,14 @@ export class TeamsPage {
 
   ngOnInit() {
 
- /*      this.userRole = localStorage.getItem('userRole');
-  const coachId = localStorage.getItem('userId');
 
-  if (coachId) {
-    this.http.get<Team[]>(`http://localhost:3000/api/teams/coach/${coachId}`).subscribe({
-      next: (data) => {
-        this.teams = data;
-        console.log('[TeamsPage] Loaded teams from DB:', data);
-      },
-      error: (err) => {
-        console.error('❌ Error loading teams:', err);
-        alert('Failed to load teams');
-      }
-    });
-  }
-} */
 
   this.userRole = localStorage.getItem('userRole');
   const userId = localStorage.getItem('userId');
 
   if (this.userRole === 'coach') {
-    this.http.get<any[]>(`http://localhost:3000/api/teams/coach/${userId}`).subscribe({
+   // this.http.get<any[]>(`http://localhost:3000/api/teams/coach/${userId}`).subscribe({
+      this.http.get<any[]>(`${environment.apiUrl}/api/teams/coach/${userId}`).subscribe({
       next: (teams) => {
         this.teams = teams;
         console.log('👨‍🏫 Coach teams:', teams);
@@ -58,7 +45,9 @@ export class TeamsPage {
       }
     });
   } else if (this.userRole === 'player' && userId) {
-    this.http.get<Team[]>(`http://localhost:3000/api/teams/player/${userId}`).subscribe({
+   // this.http.get<Team[]>(`http://localhost:3000/api/teams/player/${userId}`).subscribe({
+      this.http.get<Team[]>(`${environment.apiUrl}/api/teams/player/${userId}`).subscribe({
+     
       next: (teams) => {
         this.teams = teams;
         console.log('[TeamsPage] Loaded teams for player:', teams);
@@ -99,7 +88,8 @@ export class TeamsPage {
           players: []  // start empty, or optionally pull from a source
         };
     
-        this.http.post('http://localhost:3000/api/teams', newTeam).subscribe({
+       // this.http.post('http://localhost:3000/api/teams', newTeam).subscribe({
+          this.http.post(`${environment.apiUrl}/api/teams`, newTeam).subscribe({
           next: (createdTeam: any) => {
             this.teams.push(createdTeam); // update UI
             console.log('[saveTeam] ✅ Team saved to DB:', createdTeam);
