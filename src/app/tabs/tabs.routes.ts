@@ -43,7 +43,7 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'tab1',
+        redirectTo: 'profile',
         pathMatch: 'full'
       }
     ]
