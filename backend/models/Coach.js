@@ -8,7 +8,7 @@ const CoachSchema = new mongoose.Schema({
   pendingPlayers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
 
 
-  // ⛳ Coaches can manage multiple teams
+  //  Coaches can manage multiple teams
   teams: [{
     name: String,
     players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }]
