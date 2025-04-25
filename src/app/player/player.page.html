@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
-  <!-- 👤 Player Info -->
+  <!-- Player Info -->
   <ion-card *ngIf="player" class="info-card">
     <ion-card-header>
       <ion-card-title class="title-highlight">{{ player.email }}</ion-card-title>
@@ -22,7 +22,7 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- 📝 Log Training Session -->
+  <!-- Log Training Session -->
   <ion-card class="log-card">
     <ion-card-header>
       <ion-card-title>Log Training Session</ion-card-title>
@@ -85,14 +85,14 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- 📊 Risk Summary -->
+  <!-- Risk Summary -->
   <ion-card *ngIf="calculatedRisk" [color]="calculatedRisk === 'High' ? 'danger' : calculatedRisk === 'Moderate' ? 'warning' : 'success'">
     <ion-card-header>
       <ion-card-title class="ion-text-center">Calculated Risk Score: {{ calculatedRisk }}</ion-card-title>
     </ion-card-header>
   </ion-card>
 
-  <!-- 📈 Risk Chart -->
+  <!-- Chart -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Risk Score History</ion-card-title>
@@ -102,7 +102,7 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- ❗️ Fallback -->
+  <!--Fallback -->
   <div *ngIf="!player">
     <ion-text color="danger">
       <p>Player not found.</p>
