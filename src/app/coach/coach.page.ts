@@ -110,7 +110,7 @@ togglePlayerSelection(player: any) {
           this.players.push(player);
           console.log('✅ Player added:', player);
   
-          // ✅ Also save this player to the coach's pendingPlayers in the DB
+          //  Also save this player to the coach's pendingPlayers in the DB
           if (this.coachId) {
            // this.http.put(`http://localhost:3000/coaches/${this.coachId}/add-player/${player._id}`, {})
             this.http.put(`${environment.apiUrl}/coaches/${this.coachId}/add-player/${player._id}`, {})
@@ -144,7 +144,7 @@ togglePlayerSelection(player: any) {
   removePlayer(player: any) {
     this.players = this.players.filter(p => p._id !== player._id);
   
-    // 🔁 Optional: persist the updated list to DB
+    // persist the updated list to DB
     if (this.coachId) {
       //this.http.put(`http://localhost:3000/coaches/${this.coachId}/pending-players`, {
         this.http.put(`${environment.apiUrl}/coaches/${this.coachId}/pending-players`, {
