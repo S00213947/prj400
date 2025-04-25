@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonButton, IonInput, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonText, IonIcon, IonBadge, IonNote } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
-import { PlayerService } from './../services/player.service'; // ✅ Import PlayerService
+import { PlayerService } from './../services/player.service'; 
 import Chart from 'chart.js/auto';
 import { informationCircleOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
@@ -25,7 +25,7 @@ addIcons({
 export class PlayerPage implements OnInit, AfterViewInit {
   @ViewChild('riskChart', { static: false }) riskChart!: ElementRef;
   playerId: string | null = null;
-  player: any = null; // ✅ Now fetched from API
+  player: any = null; 
   chart: any;
 
  
@@ -66,7 +66,7 @@ export class PlayerPage implements OnInit, AfterViewInit {
       if (this.player) {
         this.createChart();
       }
-    }, 1000); // 👈 1 second
+    }, 1000); // 1 second
   }
   
   createChart() {
@@ -160,7 +160,7 @@ export class PlayerPage implements OnInit, AfterViewInit {
 
   this.calculateRisk(); // includes chart + score logging
 
-  // ✅ Save updated risk scores to backend
+  // updated risk scores to backend
   if (this.player?._id && this.player.riskScores) {
     this.playerService.updatePlayerRiskScores(this.player._id, this.player.riskScores).subscribe({
       next: () => console.log('✅ Risk scores saved to backend'),
@@ -282,13 +282,13 @@ This is a scale from 1 to 10 that tells how intense the session felt **to you**.
 
   console.log('Risk Score:', riskScore.toFixed(2), '| Level:', this.calculatedRisk);
 
-  // ✅ Add new risk score to the player's history
+  // ad new risk score to the player's history
   if (!this.player.riskScores) {
     this.player.riskScores = [];
   }
   this.player.riskScores.push(Number(riskScore.toFixed(2)));
 
-  // ✅ Re-draw the chart
+  // Re-draw the chart
   this.updateChart();
 }
 
