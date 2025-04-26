@@ -1,4 +1,4 @@
-<!-- 👨‍🏫 Coach View -->
+<!-- Coach View -->
 <ng-container *ngIf="userRole === 'coach'">
   <ion-button (click)="createTeam()">Create New Team</ion-button>
 
@@ -25,7 +25,7 @@
   <ion-item *ngFor="let team of teams">
     <ion-label>
       <h2>{{ team.name }}</h2>
-      <p>Players: {{ team.players?.length || 0 }}</p>
+      <p>Players: {{ team.players.length || 0 }}</p>
     </ion-label>
     <ion-button slot="end" fill="clear" (click)="goToTeam(team._id)">
       View

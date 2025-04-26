@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './teams.page.html',
   styleUrls: ['./teams.page.scss'],
   standalone: true,
-  imports: [IonInput, IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonText, IonList, IonItem, IonToolbar, IonModal, IonHeader, IonTitle, IonButtons, IonContent, IonLabel, IonButton, CommonModule, FormsModule, ]
+  imports: [IonInput, IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonText,  IonItem,   IonHeader, IonTitle,  IonLabel, IonButton, CommonModule, FormsModule, ]
 })
 export class TeamsPage {
   userRole: string | null = null;
