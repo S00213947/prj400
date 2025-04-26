@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root' // ✅ This makes it available throughout the app
 })
 export class PlayerService {
-  //private apiUrl = 'http://localhost:3000'; // Replace with your actual backend URL
+  //private apiUrl = 'http://localhost:3000'; 
   private apiUrl = environment.apiUrl;
   
   constructor(private http: HttpClient) {}

@@ -186,8 +186,8 @@ export class PlayerPage implements OnInit, AfterViewInit {
   
     const acute = last7Days.reduce((sum, e) => sum + e.load, 0);
     const chronic = last28Days.reduce((sum, e) => sum + e.load, 0) / (last28Days.length || 1);
-  
     const acwr = chronic > 0 ? acute / chronic : 0;
+    
     console.log('ACWR:', acwr.toFixed(2));
   
     const latestRPE = this.session.rpe;
