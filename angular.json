@@ -21,7 +21,7 @@
             "outputPath": "www",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "baseHref": "/",
+            "baseHref": "./",
             "polyfills": [
               "src/polyfills.ts"
             ],
